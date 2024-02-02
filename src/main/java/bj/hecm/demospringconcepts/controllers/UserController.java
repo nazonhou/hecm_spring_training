@@ -29,4 +29,9 @@ public class UserController {
         return new ResponseEntity<>(
                 userService.createUser(user), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getOneUser(@PathVariable String username){
+        return new ResponseEntity<>(userService.getUser(username), HttpStatus.OK);
+    }
 }

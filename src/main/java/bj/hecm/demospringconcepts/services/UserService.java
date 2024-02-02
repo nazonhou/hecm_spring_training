@@ -32,4 +32,8 @@ public class UserService {
         userRepository.create(user);
         return user;
     }
+
+    public User getUser(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
