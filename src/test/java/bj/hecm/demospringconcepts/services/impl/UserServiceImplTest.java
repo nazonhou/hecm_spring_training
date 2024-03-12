@@ -9,13 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 class UserServiceImplTest {
     private UserServiceImpl userService;
     private UserRepository userRepository;
     private CreateUserRequest request;
+    private User user;
 
     @BeforeEach
     void setUp() {
@@ -26,12 +27,14 @@ class UserServiceImplTest {
                 .username("johnDoe")
                 .build();
 
-        User user = User.builder()
+        user = User.builder()
                 .username(request.username())
                 .email(request.email())
                 .build();
 
-        when(userRepository.save(any(User.class)))
+        when(
+                userRepository.save(eq(user))
+        )
                 .thenReturn(user);
 
         userService = new UserServiceImpl(userRepository);
@@ -46,5 +49,7 @@ class UserServiceImplTest {
 
         // Assertions
         Assertions.assertThat(result.email()).isEqualTo("johndoe@gmail.com");
+
+        verify(userRepository, times(1)).save(eq(user));
     }
 }

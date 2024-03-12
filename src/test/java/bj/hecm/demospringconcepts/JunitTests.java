@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 public class JunitTests {
     @Test
     void addTwoNumbers() {
+
         // Perform action
         int result = 1 + 2;
 
