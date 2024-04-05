@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "users")
@@ -14,12 +17,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(generator = "user-sequence-generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "user-sequence-generator",
+            sequenceName = "users_id_seq",
+            allocationSize = 1
+    )
+    private int id;
 
     @Column(unique = true, nullable = false)
     private String username;
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 }
